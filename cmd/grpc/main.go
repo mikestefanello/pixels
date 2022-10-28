@@ -41,10 +41,22 @@ func main() {
 	repository := repo.NewEventPubsubRepo(client, cfg.Topic)
 	service := event.NewService(repository)
 
-	// Create a Connect server
-	mux := http.NewServeMux()
+	// Start a Connect server
+	err = http.ListenAndServe(
+		fmt.Sprintf("%s:%d", cfg.HTTP.Address, cfg.HTTP.Port),
+		buildHandler(service),
+	)
+
+	if err != nil {
+		log.Error().Err(err).Msg("server terminated")
+	}
+}
+
+func buildHandler(service event.Service) http.Handler {
 	grpchandler := handler.NewEventGRPCHandler(service)
 	path, hdlr := eventv1connect.NewEventServiceHandler(grpchandler)
+
+	mux := http.NewServeMux()
 	mux.Handle(path, hdlr)
 	mux.Handle(grpcreflect.NewHandlerV1(
 		grpcreflect.NewStaticReflector(eventv1connect.EventServiceName),
@@ -58,12 +70,6 @@ func main() {
 		grpchealth.NewStaticChecker(eventv1connect.EventServiceName),
 		connect.WithCompressMinBytes(1024),
 	))
-	err = http.ListenAndServe(
-		fmt.Sprintf("%s:%d", cfg.HTTP.Address, cfg.HTTP.Port),
-		h2c.NewHandler(mux, &http2.Server{}),
-	)
 
-	if err != nil {
-		log.Error().Err(err).Msg("server terminated")
-	}
+	return h2c.NewHandler(mux, &http2.Server{})
 }

@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package event.v1;
 
-option go_package = "github.com/mikestefanello/pixels/gen/event/v1;eventv1";
+option go_package = "github.com/mikestefanello/pixels/gen/protos/event/v1;eventv1";
 
 message NewEventRequest {
   string CookieID = 1;

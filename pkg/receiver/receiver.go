@@ -27,6 +27,7 @@ func (r *pubsubReceiver) Receive(ctx context.Context, msg *pubsub.Message) {
 	// Create a logger for the message
 	logger := log.With().
 		Str("message_id", msg.ID).
+		Int("length", len(msg.Data)).
 		Logger()
 
 	// Decompress

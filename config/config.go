@@ -1,8 +1,18 @@
 package config
 
 import (
+	"fmt"
+
+	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 )
+
+const (
+	EnvLocal      Environment = "local"
+	EnvProduction Environment = "prod"
+)
+
+type Environment string
 
 type Config struct {
 	Environment  string
@@ -17,8 +27,16 @@ type Config struct {
 
 func GetConfig() (Config, error) {
 	var c Config
-	// TODO: Per env
-	viper.SetConfigName("config")
+
+	// Determine the environment
+	pflag.String("environment", "local", "the execution environment")
+	pflag.Parse()
+	if err := viper.BindPFlags(pflag.CommandLine); err != nil {
+		return c, err
+	}
+
+	// Load the config file per environment
+	viper.SetConfigName(fmt.Sprintf("config-%s", viper.Get("Environment")))
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath("config")
 
