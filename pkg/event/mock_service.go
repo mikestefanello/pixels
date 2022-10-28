@@ -23,6 +23,9 @@ func (m *MockService) Validate(e Event) error {
 }
 
 func (m *MockService) Insert(ctx context.Context, e *Event) error {
+	if m.Errors.Insert != nil {
+		return m.Errors.Insert
+	}
 	m.Events = append(m.Events, *e)
-	return m.Errors.Insert
+	return nil
 }
