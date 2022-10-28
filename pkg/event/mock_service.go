@@ -6,6 +6,10 @@ import (
 
 type MockService struct {
 	Events []Event
+	Errors struct {
+		Validate error
+		Insert   error
+	}
 }
 
 func NewMockService() *MockService {
@@ -15,10 +19,10 @@ func NewMockService() *MockService {
 }
 
 func (m *MockService) Validate(e Event) error {
-	return nil
+	return m.Errors.Validate
 }
 
 func (m *MockService) Insert(ctx context.Context, e *Event) error {
 	m.Events = append(m.Events, *e)
-	return nil
+	return m.Errors.Insert
 }
