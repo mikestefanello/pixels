@@ -43,9 +43,6 @@ func (r *eventPubsubRepo) Insert(ctx context.Context, e event.Event) error {
 			Data: data,
 		})
 
-	if _, err := result.Get(ctx); err != nil {
-		return err
-	}
-
-	return nil
+	_, err = result.Get(ctx)
+	return err
 }

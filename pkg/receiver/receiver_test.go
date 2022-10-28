@@ -45,7 +45,7 @@ func TestPubsubReceiver_Receive_Failure_InvalidData(t *testing.T) {
 
 	// Pass the message to the receiver for processing
 	msg, status := pstest.NewMessageWithAckStatus()
-	msg.Data = []byte{1, 2, 3, 4, 5}
+	msg.Data = []byte{1, 2, 3, 4, 5} // Not an event.Event
 	rcv.Receive(context.Background(), msg)
 
 	// No event should be added since this was invalid but we ack because it not processable

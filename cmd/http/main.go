@@ -36,7 +36,7 @@ func main() {
 		}
 		repository = repo.NewEventPubsubRepo(client, cfg.Topic)
 
-	default:
+	case config.EnvLocal:
 		repository = repo.NewEventMemoryRepository()
 	}
 

@@ -7,6 +7,10 @@ import (
 	"cloud.google.com/go/pubsub"
 )
 
+// This _hack_ is required to forcefully inject our own ack/nack handler on a pubsub message,
+// which is required for testing. This will be something shared outside of the application so others can
+// leverage this.
+
 type AckStatus struct {
 	acked  bool
 	nacked bool
@@ -30,12 +34,12 @@ func (a *AckStatus) OnNack() {
 
 func (a *AckStatus) OnAckWithResult() *pubsub.AckResult {
 	a.OnNack()
-	return nil
+	return &pubsub.AckResult{}
 }
 
 func (a *AckStatus) OnNackWithResult() *pubsub.AckResult {
 	a.OnNack()
-	return nil
+	return &pubsub.AckResult{}
 }
 
 func NewMessageWithAckStatus() (*pubsub.Message, *AckStatus) {
@@ -48,21 +52,21 @@ func NewMessageWithAckStatus() (*pubsub.Message, *AckStatus) {
 	addressableValue := reflect.New(messageValue.Type()).Elem()
 	addressableValue.Set(messageValue)
 
-	// Get message's doneFunc field
-	doneFuncField := addressableValue.FieldByName("ackh")
+	// Get message's private ackh field
+	ackhField := addressableValue.FieldByName("ackh")
 
 	// Get the address of the field
-	doneFuncFieldAddress := doneFuncField.UnsafeAddr()
+	ackhFieldAddress := ackhField.UnsafeAddr()
 
 	// Create a pointer based on the address
-	doneFuncFieldPointer := unsafe.Pointer(doneFuncFieldAddress)
+	ackhFieldPointer := unsafe.Pointer(ackhFieldAddress)
 
 	// Create a new, exported field element that points to the original
-	accessibleDoneFuncField := reflect.NewAt(doneFuncField.Type(), doneFuncFieldPointer).Elem()
+	accessibleAckhField := reflect.NewAt(ackhField.Type(), ackhFieldPointer).Elem()
 
-	// Set the field with the alternative doneFunc
+	// Set the field with the alternative ackh
 	status := &AckStatus{}
-	accessibleDoneFuncField.Set(reflect.ValueOf(status))
+	accessibleAckhField.Set(reflect.ValueOf(status))
 
 	// Get the modified message to return
 	message = addressableValue.Interface().(pubsub.Message)
