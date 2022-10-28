@@ -32,22 +32,20 @@ func (r *pubsubReceiver) Receive(ctx context.Context, msg *pubsub.Message) {
 
 	// Decompress
 	if err := r.decompressor.DecompressMessage(msg); err != nil {
-		logger.Error().
-			Err(err).
+		logger.Err(err).
 			Msg("could not decompress pubsub message")
 
-		msg.Nack()
+		msg.Ack()
 		return
 	}
 
 	// Unmarshal
 	var e event.Event
 	if err := json.Unmarshal(msg.Data, &e); err != nil {
-		log.Error().
-			Err(err).
+		logger.Err(err).
 			Msg("could not unmarshal pubsub message")
 
-		msg.Nack()
+		msg.Ack()
 		return
 	}
 
@@ -57,7 +55,7 @@ func (r *pubsubReceiver) Receive(ctx context.Context, msg *pubsub.Message) {
 	// Handle the error
 	switch err.(type) {
 	case validator.ValidationErrors:
-		log.Debug().
+		logger.Debug().
 			Err(err).
 			Msg("invalid pubsub message data received")
 		msg.Ack()
@@ -66,8 +64,7 @@ func (r *pubsubReceiver) Receive(ctx context.Context, msg *pubsub.Message) {
 		msg.Ack()
 
 	default:
-		log.Error().
-			Err(err).
+		logger.Err(err).
 			Msg("unable to store pubsub message")
 		msg.Nack()
 	}
