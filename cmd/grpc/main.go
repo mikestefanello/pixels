@@ -22,14 +22,14 @@ import (
 func main() {
 	ctx := context.Background()
 
-	// Initialize the logger
-	log.Logger = log.With().Str("application", "pixels").Logger()
-
 	// Load configuration
 	cfg, err := config.GetConfig()
 	if err != nil {
 		log.Fatal().Err(err).Send()
 	}
+
+	// Initialize the logger
+	log.Logger = log.With().Str("application", cfg.App).Logger()
 
 	// Connect to pubsub
 	client, err := pubsub.NewClient(ctx, cfg.Project)

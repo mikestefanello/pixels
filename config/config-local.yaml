@@ -1,3 +1,4 @@
+app: "pixels"
 environment: "local"
 project: "sojern-platform-dev"
 subscription: "incoming-events"

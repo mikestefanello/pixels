@@ -8,14 +8,14 @@ import (
 )
 
 type eventMemoryRepo struct {
-	store sync.Map
+	storage sync.Map
 }
 
 func NewEventMemoryRepository() event.Repository {
-	return &eventMemoryRepo{store: sync.Map{}}
+	return &eventMemoryRepo{storage: sync.Map{}}
 }
 
 func (r *eventMemoryRepo) Insert(ctx context.Context, e event.Event) error {
-	r.store.Store(e.ID, e)
+	r.storage.Store(e.ID, e)
 	return nil
 }

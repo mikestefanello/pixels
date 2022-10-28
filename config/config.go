@@ -15,7 +15,8 @@ const (
 type Environment string
 
 type Config struct {
-	Environment  string
+	App          string
+	Environment  Environment
 	Project      string
 	Subscription string
 	Topic        string
@@ -29,6 +30,7 @@ func GetConfig() (Config, error) {
 	var c Config
 
 	// Determine the environment
+	// You could determine this based on the GCP project env variable
 	pflag.String("environment", "local", "the execution environment")
 	pflag.Parse()
 	if err := viper.BindPFlags(pflag.CommandLine); err != nil {

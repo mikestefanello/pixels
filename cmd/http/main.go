@@ -17,23 +17,30 @@ import (
 func main() {
 	ctx := context.Background()
 
-	// Initialize the logger
-	log.Logger = log.With().Str("application", "pixels").Logger()
-
 	// Load configuration
 	cfg, err := config.GetConfig()
 	if err != nil {
 		log.Fatal().Err(err).Send()
 	}
 
-	// Connect to pubsub
-	client, err := pubsub.NewClient(ctx, cfg.Project)
-	if err != nil {
-		log.Fatal().Err(err).Send()
+	// Initialize the logger
+	log.Logger = log.With().Str("application", cfg.App).Logger()
+
+	// Create the event repository based on the current environment
+	var repository event.Repository
+	switch cfg.Environment {
+	case config.EnvProduction:
+		client, err := pubsub.NewClient(ctx, cfg.Project)
+		if err != nil {
+			log.Fatal().Err(err).Send()
+		}
+		repository = repo.NewEventPubsubRepo(client, cfg.Topic)
+
+	default:
+		repository = repo.NewEventMemoryRepository()
 	}
 
 	// Create the event service
-	repository := repo.NewEventPubsubRepo(client, cfg.Topic)
 	service := event.NewService(repository)
 
 	// Create an HTTP server
