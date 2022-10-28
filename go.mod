@@ -7,6 +7,9 @@ require (
 	cloud.google.com/go/compute v1.10.0 // indirect
 	cloud.google.com/go/iam v0.5.0 // indirect
 	cloud.google.com/go/pubsub v1.26.0 // indirect
+	github.com/bufbuild/connect-go v1.1.0 // indirect
+	github.com/bufbuild/connect-grpchealth-go v1.0.0 // indirect
+	github.com/bufbuild/connect-grpcreflect-go v1.0.0 // indirect
 	github.com/fsnotify/fsnotify v1.5.4 // indirect
 	github.com/go-playground/validator/v10 v10.11.1 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect

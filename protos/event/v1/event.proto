@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package event.v1;
+
+option go_package = "github.com/mikestefanello/pixels/gen/event/v1;eventv1";
+
+message NewEventRequest {
+  string CookieID = 1;
+  string Country = 2;
+  string Email = 3;
+  string Hotel = 4;
+  string ConfirmationNumber = 5;
+}
+
+message NewEventResponse {
+
+}
+
+service EventService {
+  rpc New(NewEventRequest) returns (NewEventResponse) {}
+}

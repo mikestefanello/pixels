@@ -17,7 +17,7 @@ type Config struct {
 
 func GetConfig() (Config, error) {
 	var c Config
-
+	// TODO: Per env
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath("config")
