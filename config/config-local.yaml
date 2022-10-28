@@ -1,0 +1,7 @@
+environment: "local"
+project: "sojern-platform-dev"
+subscription: "incoming-events"
+topic: "pixel-events"
+http:
+  port: 8080
+  address: "localhost"
