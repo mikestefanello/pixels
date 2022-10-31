@@ -10,6 +10,7 @@ import (
 // This _hack_ is required to forcefully inject our own ack/nack handler on a pubsub message,
 // which is required for testing. This will be something shared outside of the application so others can
 // leverage this.
+// I opened this feature request so this can be avoided: https://github.com/googleapis/google-cloud-go/issues/6971
 
 type AckStatus struct {
 	acked  bool

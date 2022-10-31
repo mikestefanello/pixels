@@ -46,7 +46,7 @@ func main() {
 	// Create an HTTP server
 	httphandler := handler.NewEventHTTPHandler(service)
 	srv := echo.New()
-	srv.GET("/event", httphandler.NewEvent)
+	srv.GET("/event", httphandler.New)
 
 	// Start the server
 	addr := fmt.Sprintf("%s:%d", cfg.HTTP.Address, cfg.HTTP.Port)

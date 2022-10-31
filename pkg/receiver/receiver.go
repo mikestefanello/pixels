@@ -11,12 +11,17 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+// It would be nice if pubsub included something like this
+type PubsubReceiver interface {
+	Receive(context.Context, *pubsub.Message)
+}
+
 type pubsubReceiver struct {
 	service      event.Service
 	decompressor compress.Decompressor
 }
 
-func NewPubsubReceiver(service event.Service) *pubsubReceiver {
+func NewPubsubReceiver(service event.Service) PubsubReceiver {
 	return &pubsubReceiver{
 		service:      service,
 		decompressor: compress.NewZlibDecompressor(),

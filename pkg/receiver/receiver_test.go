@@ -39,7 +39,7 @@ func TestPubsubReceiver_Receive(t *testing.T) {
 	assert.True(t, status.IsAcked())
 }
 
-func TestPubsubReceiver_Receive_Failure_InvalidData(t *testing.T) {
+func TestPubsubReceiver_Receive__Failure_InvalidData(t *testing.T) {
 	srv := event.NewMockService()
 	rcv := NewPubsubReceiver(srv)
 
@@ -53,7 +53,7 @@ func TestPubsubReceiver_Receive_Failure_InvalidData(t *testing.T) {
 	assert.True(t, status.IsAcked())
 }
 
-func TestPubsubReceiver_Receive_Failure_Validation(t *testing.T) {
+func TestPubsubReceiver_Receive__Failure_Validation(t *testing.T) {
 	srv := event.NewMockService()
 	rcv := NewPubsubReceiver(srv)
 
@@ -69,7 +69,7 @@ func TestPubsubReceiver_Receive_Failure_Validation(t *testing.T) {
 	assert.True(t, status.IsAcked())
 }
 
-func TestPubsubReceiver_Receive_Failure_ServiceError(t *testing.T) {
+func TestPubsubReceiver_Receive__Failure_ServiceError(t *testing.T) {
 	srv := event.NewMockService()
 	rcv := NewPubsubReceiver(srv)
 
@@ -81,7 +81,7 @@ func TestPubsubReceiver_Receive_Failure_ServiceError(t *testing.T) {
 	rcv.Receive(context.Background(), msg)
 
 	// No event should be added since this operation failed and we nack to retry
-	require.Len(t, srv.Events, 1)
+	require.Len(t, srv.Events, 0)
 	assert.True(t, status.IsNacked())
 }
 
