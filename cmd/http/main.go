@@ -34,7 +34,7 @@ func main() {
 		if err != nil {
 			log.Fatal().Err(err).Send()
 		}
-		repository = repo.NewEventPubsubRepo(client, cfg.Topic)
+		repository = repo.NewEventPubsubRepository(client, cfg.Topic)
 
 	case config.EnvLocal:
 		repository = repo.NewEventMemoryRepository()

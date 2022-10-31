@@ -38,7 +38,7 @@ func main() {
 	}
 
 	// Create the event service
-	repository := repo.NewEventPubsubRepo(client, cfg.Topic)
+	repository := repo.NewEventPubsubRepository(client, cfg.Topic)
 	service := event.NewService(repository)
 
 	// Start a Connect server

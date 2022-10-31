@@ -15,7 +15,7 @@ type eventPubsubRepo struct {
 	compressor compress.Compressor
 }
 
-func NewEventPubsubRepo(client *pubsub.Client, topic string) event.Repository {
+func NewEventPubsubRepository(client *pubsub.Client, topic string) event.Repository {
 	return &eventPubsubRepo{
 		client:     client,
 		topic:      topic,
