@@ -9,7 +9,6 @@ require (
 	github.com/bufbuild/connect-grpcreflect-go v1.0.0
 	github.com/go-playground/validator/v10 v10.11.1
 	github.com/labstack/echo/v4 v4.9.1
-	github.com/magiconair/properties v1.8.6
 	github.com/oklog/ulid/v2 v2.1.0
 	github.com/rs/zerolog v1.28.0
 	github.com/spf13/pflag v1.0.5
@@ -35,6 +34,7 @@ require (
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/labstack/gommon v0.4.0 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
+	github.com/magiconair/properties v1.8.6 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.16 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
