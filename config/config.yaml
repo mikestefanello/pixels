@@ -1,8 +1,7 @@
 app: "pixels"
-environment: "prod"
-project: "sojern-platform"
+environment: "local"
 subscription: "incoming-events"
 topic: "pixel-events"
 http:
-  port: 8000
-  address: ""
+  port: 8080
+  address: "localhost"
